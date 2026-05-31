@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>迪丽热巴 · DILRABA</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:#030303;
+      color:#f8e7b6;
+      font-family:"Noto Serif SC","Songti SC","Microsoft YaHei",serif;
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+
+    :root{
+      --gold:#d6a13a;
+      --light:#ffe08a;
+      --muted:#bda66f;
+      --line:rgba(214,161,58,.32);
+    }
+
+    .nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:99;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(214,161,58,.18);
+    }
+
+    .nav-inner{
+      width:min(1200px,calc(100% - 40px));
+      margin:auto;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:var(--light);
+      font-weight:900;
+      letter-spacing:5px;
+    }
+
+    .logo span:first-child{
+      width:38px;
+      height:38px;
+      border:1px solid var(--gold);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      box-shadow:0 0 28px rgba(214,161,58,.35);
+    }
+
+    .nav a{
+      margin-left:24px;
+      color:#c5ad78;
+      font-size:14px;
+      letter-spacing:2px;
+    }
+
+    .nav a:hover{color:var(--light)}
+
+    .hero{
+      height:100vh;
+      position:relative;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      background:url("images/海报.jpg") center/contain no-repeat;
+      background-color:#000;
+      animation:none;
+    }
+
+    .hero-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 52% 42%,rgba(0,0,0,.05),rgba(0,0,0,.62) 55%,#000 100%),
+        linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.18),rgba(0,0,0,.86));
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:3;
+      height:100%;
+      width:min(1200px,calc(100% - 40px));
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .eyebrow{
+      color:var(--light);
+      letter-spacing:8px;
+      text-transform:uppercase;
+      font-size:13px;
+      margin-bottom:18px;
+    }
+
+    h1{
+      font-size:clamp(64px,12vw,168px);
+      line-height:.9;
+      letter-spacing:12px;
+      color:transparent;
+      background:linear-gradient(#fff3b1,#d6a13a 55%,#72470f);
+      -webkit-background-clip:text;
+      background-clip:text;
+      text-shadow:0 0 50px rgba(214,161,58,.25);
+    }
+
+    .slogan{
+      margin-top:26px;
+      font-size:clamp(24px,4vw,56px);
+      color:var(--light);
+      letter-spacing:10px;
+    }
+
+    .hero-text{
+      max-width:620px;
+      margin-top:26px;
+      color:#d8c28d;
+      font-size:18px;
+      line-height:1.9;
+    }
+
+    .hero-buttons{
+      margin-top:38px;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:13px 30px;
+      border-radius:999px;
+      border:1px solid rgba(255,224,138,.6);
+      background:linear-gradient(135deg,#ffe08a,#d6a13a,#70460f);
+      color:#120900;
+      font-weight:900;
+      letter-spacing:2px;
+    }
+
+    .btn.dark{
+      color:var(--light);
+      background:rgba(0,0,0,.35);
+    }
+
+    .vertical{
+      position:absolute;
+      right:38px;
+      top:50%;
+      z-index:4;
+      transform:translateY(-50%);
+      writing-mode:vertical-rl;
+      color:var(--light);
+      letter-spacing:9px;
+      font-size:15px;
+    }
+
+    section{
+      padding:110px 0;
+      position:relative;
+    }
+
+    .container{
+      width:min(1200px,calc(100% - 40px));
+      margin:auto;
+    }
+
+    .section-title{
+      margin-bottom:52px;
+    }
+
+    .section-title .en{
+      color:var(--light);
+      letter-spacing:6px;
+      font-size:13px;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .section-title h2{
+      font-size:clamp(36px,5vw,72px);
+      line-height:1.1;
+      letter-spacing:5px;
+    }
+
+    .section-title p{
+      max-width:700px;
+      margin-top:20px;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.9;
+    }
+
+    .intro{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:34px;
+      align-items:center;
+    }
+
+    .intro-img{
+      min-height:680px;
+      border-radius:34px;
+      background:url("images/海报.jpg") center/contain no-repeat;
+      background-color:#000;
+      border:1px solid var(--line);
+      box-shadow:0 40px 120px rgba(0,0,0,.75);
+    }
+
+    .intro-card{
+      padding:48px;
+      border-radius:34px;
+      background:linear-gradient(135deg,rgba(214,161,58,.12),rgba(255,255,255,.025));
+      border:1px solid var(--line);
+      box-shadow:0 40px 120px rgba(0,0,0,.65);
+    }
+
+    .intro-card h3{
+      font-size:clamp(34px,4vw,58px);
+      color:var(--light);
+      line-height:1.25;
+      letter-spacing:5px;
+      margin-bottom:24px;
+    }
+
+    .intro-card p{
+      color:var(--muted);
+      font-size:18px;
+      line-height:2;
+    }
+
+    .keywords{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-top:34px;
+    }
+
+    .keyword{
+      padding:20px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:rgba(255,224,138,.05);
+      text-align:center;
+      color:var(--light);
+      letter-spacing:3px;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+    }
+
+    .photo{
+      min-height:420px;
+      border-radius:28px;
+      background-size:cover;
+      background-position:center;
+      border:1px solid var(--line);
+      overflow:hidden;
+      position:relative;
+      box-shadow:0 30px 90px rgba(0,0,0,.65);
+    }
+
+    .photo::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));
+    }
+
+    .photo.large{grid-column:span 7;min-height:620px}
+    .photo.mid{grid-column:span 5;min-height:620px}
+    .photo.small{grid-column:span 4}
+
+    .photo span{
+      position:absolute;
+      z-index:2;
+      left:24px;
+      bottom:22px;
+      color:var(--light);
+      letter-spacing:4px;
+      font-size:14px;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+
+    .feature{
+      padding:34px;
+      min-height:280px;
+      border-radius:28px;
+      background:rgba(255,224,138,.055);
+      border:1px solid var(--line);
+      box-shadow:0 28px 90px rgba(0,0,0,.55);
+    }
+
+    .feature .num{
+      color:var(--light);
+      font-size:14px;
+      letter-spacing:5px;
+      margin-bottom:22px;
+    }
+
+    .feature h3{
+      color:#ffe8a6;
+      font-size:28px;
+      letter-spacing:3px;
+      margin-bottom:16px;
+    }
+
+    .feature p{
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    .wide-banner{
+      min-height:720px;
+      background:
+        linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.15),rgba(0,0,0,.92)),
+        url("images/微信图片_20260525151412_1046_5.jpg") center/cover no-repeat;
+      display:flex;
+      align-items:center;
+    }
+
+    .banner-box{
+      width:min(1200px,calc(100% - 40px));
+      margin:auto;
+    }
+
+    .banner-box h2{
+      max-width:720px;
+      font-size:clamp(44px,6vw,86px);
+      line-height:1.1;
+      letter-spacing:7px;
+      color:var(--light);
+    }
+
+    .banner-box p{
+      margin-top:26px;
+      max-width:580px;
+      color:#d4bd82;
+      font-size:18px;
+      line-height:2;
+    }
+
+    .media{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:24px;
+    }
+
+    .media-main{
+      min-height:620px;
+      border-radius:34px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg,transparent,rgba(0,0,0,.78)),
+        url("images/微信图片_20260525151414_1047_5.jpg") center/cover no-repeat;
+      display:flex;
+      align-items:end;
+      padding:34px;
+      box-shadow:0 40px 120px rgba(0,0,0,.7);
+    }
+
+    .media-main h3{
+      font-size:42px;
+      color:var(--light);
+      letter-spacing:4px;
+    }
+
+    .media-main p{
+      color:var(--muted);
+      margin-top:12px;
+      max-width:560px;
+      line-height:1.9;
+    }
+
+    .media-list{
+      display:grid;
+      gap:18px;
+    }
+
+    .media-item{
+      padding:28px;
+      border-radius:26px;
+      border:1px solid var(--line);
+      background:rgba(255,224,138,.055);
+    }
+
+    .media-item h3{
+      color:var(--light);
+      font-size:26px;
+      margin-bottom:12px;
+      letter-spacing:3px;
+    }
+
+    .media-item p{
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    .final{
+      min-height:90vh;
+      display:flex;
+      align-items:center;
+      text-align:center;
+      background:
+        radial-gradient(circle at center,rgba(214,161,58,.18),transparent 35%),
+        linear-gradient(180deg,#020202,#080604);
+    }
+
+    .final h2{
+      font-size:clamp(48px,8vw,120px);
+      color:transparent;
+      background:linear-gradient(#fff0a5,#d6a13a,#6d430f);
+      -webkit-background-clip:text;
+      background-clip:text;
+      letter-spacing:12px;
+      line-height:1;
+    }
+
+    .final p{
+      margin:28px auto 0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:19px;
+      line-height:2;
+    }
+
+    footer{
+      padding:40px 0;
+      border-top:1px solid rgba(214,161,58,.18);
+      text-align:center;
+      color:#9c8758;
+      letter-spacing:3px;
+      font-size:13px;
+    }
+
+    @media(max-width:980px){
+      .nav nav{display:none}
+      .intro,.media{grid-template-columns:1fr}
+      .keywords{grid-template-columns:repeat(2,1fr)}
+      .feature-grid{grid-template-columns:1fr}
+      .photo.large,.photo.mid,.photo.small{grid-column:span 12;min-height:520px}
+      .vertical{display:none}
+    }
+
+    @media(max-width:640px){
+      h1{letter-spacing:4px}
+      .slogan{letter-spacing:4px}
+      .hero-content{padding-top:80px}
+      .intro-img{min-height:520px}
+      .photo.large,.photo.mid,.photo.small{min-height:420px}
+      .wide-banner{min-height:620px}
+      .keywords{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#home" class="logo">
+        <span>D</span>
+        <strong>DILRABA</strong>
+      </a>
+      <nav>
+        <a href="#artist">艺人形象</a>
+        <a href="#gallery">视觉大片</a>
+        <a href="#style">风格符号</a>
+        <a href="#media">媒体活动</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="hero">
+    <div class="hero-bg"></div>
+    <div class="vertical">以锋芒加冕 · 以姿态为王</div>
+
+    <div class="hero-content">
+      <div>
+        <div class="eyebrow">ALL EYES ON DILRABA</div>
+        <h1>迪丽热巴</h1>
+        <div class="slogan">以锋芒加冕，以姿态为王</div>
+        <p class="hero-text">
+          黑金光影之下，锋芒、姿态与凝视共同构成她的独特气场。
+          以角色为刃，以热爱为炬，持续释放属于迪丽热巴的高级美学与舞台能量。
+        </p>
+        <div class="hero-buttons">
+          <a href="#artist" class="btn">进入专题</a>
+          <a href="#gallery" class="btn dark">观看大片</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section id="artist">
+    <div class="container intro">
+      <div class="intro-img"></div>
+
+      <div class="intro-card">
+        <div class="eyebrow">ACTRESS & ARTIST</div>
+        <h3>打破标签，<br>是她一贯的态度。</h3>
+        <p>
+          她以多元角色进入大众视野，以鲜明风格留下审美记忆。
+          从银幕到舞台，从角色到自我表达，迪丽热巴始终以强烈的存在感，
+          展现独立、锋利、优雅与不可复制的东方魅力。
+        </p>
+
+        <div class="keywords">
+          <div class="keyword">锋芒</div>
+          <div class="keyword">姿态</div>
+          <div class="keyword">黑金</div>
+          <div class="keyword">加冕</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <div class="en">Visual Gallery</div>
+        <h2>黑金视觉大片</h2>
+        <p>
+          暗夜、金属、宽檐帽、花瓣肩饰与流动光影，勾勒出极具张力的艺人形象。
+        </p>
+      </div>
+
+      <div class="gallery">
+        <div class="photo large" style="background-image:url('images/微信图片_20260525151409_1044_5.jpg')">
+          <span>DILRABA · CLOSE UP</span>
+        </div>
+
+        <div class="photo mid" style="background-image:url('images/微信图片_20260525151411_1045_5.jpg')">
+          <span>QUEEN OF NIGHT</span>
+        </div>
+
+        <div class="photo small" style="background-image:url('images/微信图片_20260525151407_1043_5.jpg')">
+          <span>BLACK GOLD</span>
+        </div>
+
+        <div class="photo small" style="background-image:url('images/微信图片_20260525151412_1046_5.jpg')">
+          <span>SHARP ATTITUDE</span>
+        </div>
+
+        <div class="photo small" style="background-image:url('images/微信图片_20260525151414_1047_5.jpg')">
+          <span>ALL EYES ON HER</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="style">
+    <div class="container">
+      <div class="section-title">
+        <div class="en">Signature Style</div>
+        <h2>她的风格符号</h2>
+        <p>
+          每一个造型细节都成为记忆点，构成属于迪丽热巴的高级视觉语言。
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="num">01</div>
+          <h3>黑金光影</h3>
+          <p>金色高光游走于暗夜之中，强化冷艳、神秘与力量感。</p>
+        </div>
+
+        <div class="feature">
+          <div class="num">02</div>
+          <h3>锋芒肩饰</h3>
+          <p>花瓣般展开的金属结构，兼具铠甲感与盛放感，形成极强视觉冲击。</p>
+        </div>
+
+        <div class="feature">
+          <div class="num">03</div>
+          <h3>宽檐帽影</h3>
+          <p>帽檐遮蔽与凝视之间，制造电影感、距离感与不可忽视的气场。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wide-banner">
+    <div class="banner-box">
+      <div class="eyebrow">THE MOMENT OF DILRABA</div>
+      <h2>以角色为刃，<br>以热爱为炬。</h2>
+      <p>
+        她站在光与暗的交界处，用姿态定义舞台，用作品回应期待。
+        每一次亮相，都是一次新的加冕。
+      </p>
+    </div>
+  </section>
+
+  <section id="media">
+    <div class="container">
+      <div class="section-title">
+        <div class="en">Media & Events</div>
+        <h2>媒体活动</h2>
+        <p>
+          聚合视觉大片、作品动态、品牌活动与舞台时刻，呈现迪丽热巴的多面魅力。
+        </p>
+      </div>
+
+      <div class="media">
+        <div class="media-main">
+          <div>
+            <h3>ALL EYES ON DILRABA</h3>
+            <p>聚光灯之下，她以锋芒姿态成为全场焦点。</p>
+          </div>
+        </div>
+
+        <div class="media-list">
+          <div class="media-item">
+            <h3>作品动态</h3>
+            <p>收录影视作品、角色发布、预告片与高光片段。</p>
+          </div>
+
+          <div class="media-item">
+            <h3>品牌活动</h3>
+            <p>呈现红毯、大片、时尚活动与高端品牌合作瞬间。</p>
+          </div>
+
+          <div class="media-item">
+            <h3>粉丝互动</h3>
+            <p>开放收藏、分享、评论与活动预约入口，连接更多关注与热爱。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="container">
+      <div class="eyebrow">DILRABA DILMURAT</div>
+      <h2>迪丽热巴</h2>
+      <p>以锋芒加冕，以姿态为王。她不是被定义的符号，而是持续破界的光。</p>
+      <div class="hero-buttons" style="justify-content:center">
+        <a href="#home" class="btn">回到首页</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    DILRABA · ARTIST BRAND PAGE
+  </footer>
+
+  <script>
+    const heroImages = [
+      "images/海报.jpg",
+      "images/微信图片_20260525151407_1043_5.jpg",
+      "images/微信图片_20260525151409_1044_5.jpg",
+      "images/微信图片_20260525151412_1046_5.jpg",
+      "images/微信图片_20260525151414_1047_5.jpg"
+    ];
+
+    let index = 0;
+    const heroBg = document.querySelector(".hero-bg");
+
+    setInterval(() => {
+      index = (index + 1) % heroImages.length;
+      heroBg.style.backgroundImage = `url('${heroImages[index]}')`;
+    }, 4500);
+
+    const nav = document.querySelector(".nav");
+    window.addEventListener("scroll", () => {
+      nav.style.background = window.scrollY > 80
+        ? "rgba(0,0,0,.85)"
+        : "rgba(0,0,0,.45)";
+    });
+  </script>
+
+</body>
+</html>
